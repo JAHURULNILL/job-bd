@@ -9,14 +9,26 @@ const pathHints = [
   "/job",
   "/jobs",
   "career-opportunities",
+  "career-opportunity",
+  "career-list",
+  "current-openings",
   "vacancy",
   "opening",
+  "openings",
   "position",
+  "circular",
+  "circulars",
+  "available_jobs",
+  "dtlsjob",
+  "jobdetails",
 ];
 
-export async function scrapeGenericOfficialCareer(source: SourceRegistryEntry) {
-  const $ = await fetchCheerio(source.listingUrl, source);
-  const detailUrls = new Set<string>();
+function collectRelevantUrls(
+  $: Awaited<ReturnType<typeof fetchCheerio>>,
+  baseUrl: string,
+  source: SourceRegistryEntry,
+) {
+  const urls = new Set<string>();
 
   $("a[href]").each((_, element) => {
     const href = $(element).attr("href");
@@ -38,19 +50,65 @@ export async function scrapeGenericOfficialCareer(source: SourceRegistryEntry) {
       return;
     }
 
-    detailUrls.add(absoluteUrl);
+    urls.add(absoluteUrl);
   });
 
-  const limitedUrls = [...detailUrls].slice(0, 20);
+  return [...urls];
+}
+
+async function expandRelevantUrls(
+  seedUrls: string[],
+  source: SourceRegistryEntry,
+) {
+  const expandedUrls = new Set<string>();
+
+  for (const seedUrl of seedUrls.slice(0, 18)) {
+    try {
+      const nested$ = await fetchCheerio(seedUrl, source);
+      const nestedUrls = collectRelevantUrls(nested$, seedUrl, source).filter(
+        (url) =>
+          url !== seedUrl && url !== source.listingUrl && url !== source.careersUrl,
+      );
+
+      if (nestedUrls.length > 0) {
+        nestedUrls.slice(0, 12).forEach((url) => expandedUrls.add(url));
+        continue;
+      }
+    } catch {
+      // Ignore one bad nested page and continue crawling the rest.
+    }
+
+    expandedUrls.add(seedUrl);
+  }
+
+  return [...expandedUrls];
+}
+
+export async function scrapeGenericOfficialCareer(source: SourceRegistryEntry) {
+  const $ = await fetchCheerio(source.listingUrl, source);
+  const firstPassUrls = collectRelevantUrls($, source.listingUrl, source);
+  const detailUrls =
+    firstPassUrls.length > 0
+      ? await expandRelevantUrls(firstPassUrls, source)
+      : [source.listingUrl];
+
+  const limitedUrls = [...new Set(detailUrls)].slice(0, 30);
   const results = await Promise.all(
     limitedUrls.map(async (detailUrl) => {
       const detail$ = await fetchCheerio(detailUrl, source);
       const blocks = extractJsonLdBlocks(detail$);
       const jobPosting = findJobPostingJsonLd(blocks);
       const title = normalizeWhitespace(
-        jobPosting?.title || detail$("h1").first().text(),
+        jobPosting?.title ||
+          detail$("h1").first().text() ||
+          detail$("h2").first().text(),
       );
-      const body = sanitizeScrapedText(detail$("main").text() || detail$("body").text());
+      const body = sanitizeScrapedText(
+        detail$("main").text() ||
+          detail$(".container").text() ||
+          detail$(".content").text() ||
+          detail$("body").text(),
+      );
 
       if (!title || body.length < 80) {
         return null;
