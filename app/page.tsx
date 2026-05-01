@@ -22,14 +22,14 @@ export default async function HomePage() {
       <section className="rounded-[36px] border border-slate-200 bg-white px-6 py-10 shadow-[0_24px_60px_rgba(15,23,42,0.06)] sm:px-10 sm:py-14">
         <div className="max-w-3xl">
           <div className="inline-flex rounded-full border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700">
-            শুধুমাত্র trusted source থেকে verified job
+            trusted source থেকে verified active job
           </div>
           <h1 className="mt-6 text-4xl font-semibold leading-tight text-slate-900 sm:text-5xl">
-            SSC/HSC pass এবং no experience চাকরি খুঁজুন, একদম clean ও trusted way-এ
+            বাংলাদেশের trusted source থেকে publish হওয়া চাকরি এক জায়গায় দেখুন
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
-            HSC Jobs BD শুধু সেই চাকরি দেখায় যেখানে eligibility স্পষ্ট, source
-            official, apply link real, এবং fresher candidate আবেদন করতে পারে।
+            HSC Jobs BD এখন trusted company career page এবং verified job source থেকে active job সংগ্রহ করে।
+            SSC, HSC, No Experience বা Deadline Soon filter ব্যবহার করে প্রয়োজনমতো job আলাদা করে দেখতে পারবেন।
           </p>
         </div>
 
@@ -44,7 +44,7 @@ export default async function HomePage() {
           <div>
             <p className="text-sm font-semibold text-blue-700">Latest Jobs</p>
             <h2 className="mt-2 text-3xl font-semibold text-slate-900">
-              নতুন verified চাকরি
+              নতুন verified job
             </h2>
           </div>
           <Link
@@ -86,18 +86,17 @@ export default async function HomePage() {
           <p className="text-sm font-semibold text-blue-700">কীভাবে কাজ করে</p>
           <div className="mt-4 space-y-4 text-sm leading-8 text-slate-600">
             <p>
-              প্রতিদিন নির্ধারিত cron run official source page crawl করে। এরপর title,
-              company, location, deadline, education, experience, apply link বিশ্লেষণ
-              করে।
+              প্রতিদিন cron run trusted source page crawl করে। এরপর title, company,
+              location, deadline, education, experience এবং apply link extract করা হয়।
             </p>
             <p>
-              SSC/HSC বা equivalent level এবং no experience/fresher eligibility
-              স্পষ্ট না হলে job reject হয়ে যায়। Bachelor, Masters, Honours বা 1+
-              year experience লাগলে job কখনো publish হয় না।
+              deadline valid থাকলে এবং source/apply link trusted হলে job public page-এ
+              দেখানো হয়। SSC, HSC, No Experience-এর মতো criteria filter হিসেবে আলাদা
+              করে ব্যবহার করা যায়।
             </p>
             <p>
-              public page-এ শুধু active verified job থাকে। expired job
-              automatically hide হয়ে যায়।
+              public page-এ শুধু active verified job থাকে। expired job automatically
+              hide হয়ে যায়।
             </p>
           </div>
         </div>
@@ -105,12 +104,12 @@ export default async function HomePage() {
         <div className="rounded-[32px] border border-slate-200 bg-slate-900 p-8 text-white shadow-[0_18px_44px_rgba(15,23,42,0.08)]">
           <p className="text-sm font-semibold text-blue-200">SEO Content</p>
           <h2 className="mt-3 text-3xl font-semibold leading-tight">
-            বাংলাদেশে SSC/HSC pass no experience job খোঁজার trusted জায়গা
+            Bangladesh verified job source aggregator
           </h2>
           <p className="mt-5 text-sm leading-8 text-slate-300">
-            HSC Jobs BD তাদের জন্য তৈরি, যারা SSC pass jobs in Bangladesh, HSC pass
-            jobs, fresher jobs, entry level jobs, এবং no experience jobs খুঁজছেন।
-            এখানে প্রতিটি job-এর সাথে original source link দেওয়া থাকে।
+            এখানে trusted source থেকে publish হওয়া চাকরির সাথে original source link দেওয়া
+            থাকে। search এবং filter ব্যবহার করে SSC pass jobs, HSC pass jobs,
+            fresher jobs, no experience jobs বা company-wise jobs আলাদা করে দেখা যায়।
           </p>
         </div>
       </section>

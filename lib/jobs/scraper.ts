@@ -63,8 +63,6 @@ function dedupeCandidates(candidates: ScrapedJobCandidate[]) {
 function buildRejectionReasons(
   sourceTrusted: boolean,
   applyTrusted: boolean,
-  educationResult: ReturnType<typeof evaluateEducation>,
-  experienceResult: ReturnType<typeof evaluateExperience>,
   deadlineResult: ReturnType<typeof evaluateDeadline>,
 ) {
   const reasons: string[] = [];
@@ -75,18 +73,6 @@ function buildRejectionReasons(
 
   if (!applyTrusted) {
     reasons.push("Suspicious or unsupported apply URL");
-  }
-
-  if (!educationResult.eligible) {
-    reasons.push(
-      educationResult.disallowed[0] || "Education requirement is unclear for SSC/HSC candidates",
-    );
-  }
-
-  if (!experienceResult.eligible) {
-    reasons.push(
-      experienceResult.disallowed[0] || "Experience requirement is unclear for freshers",
-    );
   }
 
   if (!deadlineResult.eligible) {
@@ -129,12 +115,9 @@ function normalizeCandidate(
   const rejectionReasons = buildRejectionReasons(
     sourceTrusted,
     applyTrusted,
-    educationResult,
-    experienceResult,
     deadlineResult,
   );
-  const status =
-    confidenceScore >= 85 && rejectionReasons.length === 0 ? "active" : "rejected";
+  const status = rejectionReasons.length === 0 ? "active" : "rejected";
   const deadline = deadlineResult.deadline || new Date(0);
   const jobSlugBase = `${candidate.title} ${candidate.company}`;
   const rawTextHash = createRawTextHash(combinedText);

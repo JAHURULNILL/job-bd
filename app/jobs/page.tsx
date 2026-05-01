@@ -12,9 +12,9 @@ type JobsPageProps = {
 };
 
 export const metadata = {
-  title: `সব verified চাকরি | ${siteConfig.name}`,
+  title: `সব verified job | ${siteConfig.name}`,
   description:
-    "বাংলাদেশের active SSC/HSC pass no experience verified job list.",
+    "বাংলাদেশের trusted source থেকে সংগ্রহ করা active verified job list, যেখানে search ও filter ব্যবহার করা যায়।",
 };
 
 export default async function JobsPage({ searchParams }: JobsPageProps) {
@@ -65,11 +65,11 @@ export default async function JobsPage({ searchParams }: JobsPageProps) {
         <div className="max-w-3xl">
           <p className="text-sm font-semibold text-blue-700">All Active Jobs</p>
           <h1 className="mt-3 text-3xl font-semibold text-slate-900 sm:text-4xl">
-            verified SSC/HSC no experience চাকরি
+            trusted source থেকে verified active job
           </h1>
           <p className="mt-4 text-sm leading-8 text-slate-600">
-            এখানে শুধু active job দেখানো হয়। expired বা unclear eligibility job public
-            list-এ থাকে না।
+            এখানে trusted source থেকে পাওয়া active job দেখানো হয়। SSC, HSC, No Experience,
+            company, location এবং source type filter ব্যবহার করে প্রয়োজনমতো shortlist করতে পারবেন।
           </p>
         </div>
 
